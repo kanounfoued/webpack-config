@@ -29,6 +29,7 @@
     "start": "webpack-dev-server --mode development --fix",
     "build": "webpack --mode production",
     "format": "prettier --write \"src/**/*.js\"",
-    "eslint-fix": "eslint --fix \"src/**/*.js\""
+    "eslint-fix": "eslint --fix \"src/**/*.js\"",
+    "analyze": "source-map-explorer ./dist/**/*.js"
   }
 }
