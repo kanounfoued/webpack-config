@@ -28,7 +28,7 @@ module.exports = (_, argv) => {
 
     output: {
       path: __dirname + '/dist',
-      publicPath: '/assets',
+      publicPath: '/assets/',
       filename: 'bundle.js',
     },
 
@@ -37,7 +37,7 @@ module.exports = (_, argv) => {
       //contentBase: './dist',
       // this is only for production mode.
       contentBase: './dist',
-      publicPath: '/assets',
+      publicPath: '/assets/',
     },
 
     optimization: {
@@ -58,7 +58,7 @@ module.exports = (_, argv) => {
             {
               loader: 'babel-loader',
               options: {
-                plugins: ['@babel/plugin-transform-runtime'],
+                plugins: ['@babel/plugin-transform-runtime', '@babel/plugin-proposal-logical-assignment-operators'],
                 // This is a feature of `babel-loader` for webpack (not Babel itself).
                 // It enables caching results in ./node_modules/.cache/babel-loader/
                 // directory for faster rebuilds.
@@ -99,7 +99,7 @@ module.exports = (_, argv) => {
           test: /\.(jpe?g|png|gif|svg)$/,
           loader: 'file-loader',
           options: {
-            publicPath: 'assets',
+            publicPath: '/assets/',
             name: '[name]-[contenthash].[ext]',
             limit: 10000,
           },
@@ -162,22 +162,25 @@ module.exports = (_, argv) => {
       // You can remove this if you don't use Moment.js:
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
 
-      argv.mode === 'production' &&
-        new WorkboxWebpackPlugin.GenerateSW({
-          clientsClaim: true,
-          exclude: [/\.map$/, /asset-manifest\.json$/],
-          importWorkboxFrom: 'cdn',
-          navigateFallback: publicUrlOrPath + 'index.html',
-          navigateFallbackBlacklist: [
-            // Exclude URLs starting with /_, as they're likely an API call
-            new RegExp('^/_'),
-            // Exclude any URLs whose last part seems to be a file extension
-            // as they're likely a resource and not a SPA route.
-            // URLs containing a "?" character won't be blacklisted as they're likely
-            // a route with query params (e.g. auth callbacks).
-            new RegExp('/[^/?]+\\.[^/]+$'),
-          ],
-        }),
+      ...(argv.mode === 'production'
+        ? [
+            new WorkboxWebpackPlugin.GenerateSW({
+              clientsClaim: true,
+              exclude: [/\.map$/, /asset-manifest\.json$/],
+              importWorkboxFrom: 'cdn',
+              navigateFallback: publicUrlOrPath + 'index.html',
+              navigateFallbackBlacklist: [
+                // Exclude URLs starting with /_, as they're likely an API call
+                new RegExp('^/_'),
+                // Exclude any URLs whose last part seems to be a file extension
+                // as they're likely a resource and not a SPA route.
+                // URLs containing a "?" character won't be blacklisted as they're likely
+                // a route with query params (e.g. auth callbacks).
+                new RegExp('/[^/?]+\\.[^/]+$'),
+              ],
+            }),
+          ]
+        : []),
 
       new MiniCssExtractPlugin({
         filename: '[name][contenthash].css',
