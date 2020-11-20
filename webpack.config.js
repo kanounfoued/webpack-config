@@ -22,31 +22,33 @@ const publicUrlOrPath = getPublicUrlOrPath(
 module.exports = (_, argv) => {
   return {
     mode: argv.mode === 'production' ? 'production' : 'development',
-    devtool: argv.mode === 'production' ? 'source-map' : 'source-map',
-    bail: argv.mode === 'production' ? true : false,
+    devtool: argv.mode === 'production' ? '' : 'source-map',
+    bail: argv.mode === 'production',
     entry: './src/index.js',
 
     output: {
-      path: __dirname + '/dist',
-      publicPath: '/assets/',
-      filename: 'bundle.js',
+      path: path.resolve(__dirname + '/dist'),
+      publicPath: '/',
+      filename: argv.mode === 'production' ? '[name].[contenthash:8].js' : 'bundle.js',
+      chunkFilename: argv.mode === 'production' ? 'assets/js/[name].[contenthash:8].chunk.js' : '[name].chunk.js',
     },
 
     devServer: {
       // this is for dev mode.
       //contentBase: './dist',
       // this is only for production mode.
-      contentBase: './dist',
-      publicPath: '/assets/',
+      port: 3000,
+      historyApiFallback: true,
+      open: true,
     },
 
     optimization: {
-      minimize: argv.mode === 'production' ? true : false,
+      minimize: argv.mode === 'production',
       minimizer: [new OptimizeCSSAssetsPlugin({}), new TerserJSPlugin()],
     },
 
     resolve: {
-      extensions: ['.tsx', '.ts', '.js'],
+      extensions: ['jsx', '.tsx', '.ts', '.js'],
     },
 
     module: {
@@ -99,8 +101,7 @@ module.exports = (_, argv) => {
           test: /\.(jpe?g|png|gif|svg)$/,
           loader: 'file-loader',
           options: {
-            publicPath: '/assets/',
-            name: '[name]-[contenthash].[ext]',
+            name: 'assets/[name]-[contenthash].[ext]',
             limit: 10000,
           },
         },
@@ -183,9 +184,11 @@ module.exports = (_, argv) => {
         : []),
 
       new MiniCssExtractPlugin({
-        filename: '[name][contenthash].css',
-        chunkFilename: '[id].css',
+        filename: 'static/css/[name][contenthash].css',
+        chunkFilename: 'static/css/[id].css',
       }),
+
+      ...(argv.mode === 'production' ? [] : [new webpack.HotModuleReplacementPlugin()]),
     ],
 
     // Some libraries import Node modules but don't use them in the browser.
