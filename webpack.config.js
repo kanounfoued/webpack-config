@@ -24,7 +24,8 @@ module.exports = (_, argv) => {
     mode: argv.mode === 'production' ? 'production' : 'development',
     devtool: argv.mode === 'production' ? '' : 'source-map',
     bail: argv.mode === 'production',
-    entry: './src/index.js',
+    // if the project is based on js files set entry to index.js
+    entry: './src/index.tsx',
 
     output: {
       path: path.resolve(__dirname + '/dist'),

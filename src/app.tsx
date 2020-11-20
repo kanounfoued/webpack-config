@@ -3,9 +3,7 @@ import img from './asset/LD.png';
 
 import './style.css';
 
-interface IPropsType {}
-
-const App: React.FC<IPropsType> = () => {
+const App: React.FC = () => {
   return (
     <div>
       <div className="app">This is my app.</div>

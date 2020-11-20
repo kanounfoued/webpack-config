@@ -1,9 +1,7 @@
 import React from 'react';
 import { add } from './headerFunction';
 
-interface IPropsType {}
-
-const Header: React.FC<IPropsType> = () => {
+const Header: React.FC = () => {
   const adding = (): number | string => {
     return add(2, 3);
   };
