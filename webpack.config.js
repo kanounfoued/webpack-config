@@ -3,7 +3,7 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
-const DynamicCdnWebpackPlugin = require('dynamic-cdn-webpack-plugin');
+// const DynamicCdnWebpackPlugin = require('dynamic-cdn-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 const getPublicUrlOrPath = require('react-dev-utils/getPublicUrlOrPath');
@@ -70,7 +70,6 @@ module.exports = (_, argv) => {
                 compact: false,
               },
             },
-            'eslint-loader',
           ],
         },
 
@@ -135,10 +134,10 @@ module.exports = (_, argv) => {
 
       // import these files as cdn, in order to decrease the bundle size.
       // rather than supply them in bundle, they get served as cdn(link).
-      new DynamicCdnWebpackPlugin({
-        env: 'production',
-        only: ['react', 'react-dom', 'react-redux', 'redux', 'react-router-dom', 'redux-thunk', 'axios'],
-      }),
+      // new DynamicCdnWebpackPlugin({
+      //   env: 'production',
+      //   only: ['react', 'react-dom', 'react-redux', 'redux', 'react-router-dom', 'redux-thunk', 'axios'],
+      // }),
 
       new ManifestPlugin({
         fileName: 'asset-manifest.json',
