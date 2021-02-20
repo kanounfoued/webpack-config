@@ -7,6 +7,7 @@ const TerserJSPlugin = require('terser-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 const getPublicUrlOrPath = require('react-dev-utils/getPublicUrlOrPath');
+const InterpolateHtmlPlugin = require('interpolate-html-plugin');
 const webpack = require('webpack');
 const fs = require('fs');
 
@@ -149,6 +150,9 @@ module.exports = (_, argv) => {
 
     plugins: [
       new webpack.HashedModuleIdsPlugin(),
+      new InterpolateHtmlPlugin({
+        PUBLIC_URL: 'public/',
+      }),
       new HtmlWebpackPlugin({
         // if you want to provide your own file, add this line of code to detect the path of the file.
         // otherwise let it empty.
