@@ -43,9 +43,48 @@ module.exports = (_, argv) => {
       open: true,
     },
 
+    // I used this config in the last project with the company I worked on. feel free to use it or just put your own. it has an uncredible effect on the performance on that project.
     optimization: {
       minimize: argv.mode === 'production',
       minimizer: [new OptimizeCSSAssetsPlugin({}), new TerserJSPlugin()],
+      //   splitChunks: {
+      //     chunks: 'all',
+      //     maxInitialRequests: Infinity,
+      //     maxAsyncRequests: Infinity,
+
+      //     cacheGroups: {
+      //       reactReduxVendor: {
+      //         test: /[\\/]node_modules[\\/](react-redux)[\\/]/,
+      //         name: 'reactreduxvendor',
+      //       },
+      //       reactVendor: {
+      //         test: /[\\/]node_modules[\\/](react)[\\/]/,
+      //         name: 'reactvendor',
+      //       },
+      //       reactDOMVendor: {
+      //         test: /[\\/]node_modules[\\/](react-dom)[\\/]/,
+      //         name: 'reactDOMvendor',
+      //       },
+      //       reduxVendor: {
+      //         test: /[\\/]node_modules[\\/](redux|redux-thunk)[\\/]/,
+      //         name: 'reduxvendor',
+      //       },
+      //       reactRouterVendor: {
+      //         test: /[\\/]node_modules[\\/](react-router|react-router-dom)[\\/]/,
+      //         name: 'reactroutervendor',
+      //       },
+      //       vendor: {
+      //         test: /[\\/]node_modules[\\/]/,
+      //         name(module) {
+      //           // get the name. E.g. node_modules/packageName/not/this/part.js
+      //           // or node_modules/packageName
+      //           const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+      //           // npm package names are URL-safe, but some servers don't like @ symbols
+      //           return `${packageName.replace('@', '')}`;
+      //         },
+      //       },
+      //     },
+      //   },
     },
 
     resolve: {
