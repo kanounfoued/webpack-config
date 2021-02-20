@@ -3,10 +3,11 @@ const path = require('path');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const TerserJSPlugin = require('terser-webpack-plugin');
-const DynamicCdnWebpackPlugin = require('dynamic-cdn-webpack-plugin');
+// const DynamicCdnWebpackPlugin = require('dynamic-cdn-webpack-plugin');
 const ManifestPlugin = require('webpack-manifest-plugin');
 const WorkboxWebpackPlugin = require('workbox-webpack-plugin');
 const getPublicUrlOrPath = require('react-dev-utils/getPublicUrlOrPath');
+const InterpolateHtmlPlugin = require('interpolate-html-plugin');
 const webpack = require('webpack');
 const fs = require('fs');
 
@@ -43,9 +44,48 @@ module.exports = (_, argv) => {
       open: true,
     },
 
+    // I used this config in the last project with the company I worked on. feel free to use it or just put your own. it has an uncredible effect on the performance on that project.
     optimization: {
       minimize: argv.mode === 'production',
       minimizer: [new OptimizeCSSAssetsPlugin({}), new TerserJSPlugin()],
+      //   splitChunks: {
+      //     chunks: 'all',
+      //     maxInitialRequests: Infinity,
+      //     maxAsyncRequests: Infinity,
+
+      //     cacheGroups: {
+      //       reactReduxVendor: {
+      //         test: /[\\/]node_modules[\\/](react-redux)[\\/]/,
+      //         name: 'reactreduxvendor',
+      //       },
+      //       reactVendor: {
+      //         test: /[\\/]node_modules[\\/](react)[\\/]/,
+      //         name: 'reactvendor',
+      //       },
+      //       reactDOMVendor: {
+      //         test: /[\\/]node_modules[\\/](react-dom)[\\/]/,
+      //         name: 'reactDOMvendor',
+      //       },
+      //       reduxVendor: {
+      //         test: /[\\/]node_modules[\\/](redux|redux-thunk)[\\/]/,
+      //         name: 'reduxvendor',
+      //       },
+      //       reactRouterVendor: {
+      //         test: /[\\/]node_modules[\\/](react-router|react-router-dom)[\\/]/,
+      //         name: 'reactroutervendor',
+      //       },
+      //       vendor: {
+      //         test: /[\\/]node_modules[\\/]/,
+      //         name(module) {
+      //           // get the name. E.g. node_modules/packageName/not/this/part.js
+      //           // or node_modules/packageName
+      //           const packageName = module.context.match(/[\\/]node_modules[\\/](.*?)([\\/]|$)/)[1];
+      //           // npm package names are URL-safe, but some servers don't like @ symbols
+      //           return `${packageName.replace('@', '')}`;
+      //         },
+      //       },
+      //     },
+      //   },
     },
 
     resolve: {
@@ -70,7 +110,6 @@ module.exports = (_, argv) => {
                 compact: false,
               },
             },
-            'eslint-loader',
           ],
         },
 
@@ -111,6 +150,9 @@ module.exports = (_, argv) => {
 
     plugins: [
       new webpack.HashedModuleIdsPlugin(),
+      new InterpolateHtmlPlugin({
+        PUBLIC_URL: 'public/',
+      }),
       new HtmlWebpackPlugin({
         // if you want to provide your own file, add this line of code to detect the path of the file.
         // otherwise let it empty.
@@ -135,10 +177,10 @@ module.exports = (_, argv) => {
 
       // import these files as cdn, in order to decrease the bundle size.
       // rather than supply them in bundle, they get served as cdn(link).
-      new DynamicCdnWebpackPlugin({
-        env: 'production',
-        only: ['react', 'react-dom', 'react-redux', 'redux', 'react-router-dom', 'redux-thunk', 'axios'],
-      }),
+      // new DynamicCdnWebpackPlugin({
+      //   env: 'production',
+      //   only: ['react', 'react-dom', 'react-redux', 'redux', 'react-router-dom', 'redux-thunk', 'axios'],
+      // }),
 
       new ManifestPlugin({
         fileName: 'asset-manifest.json',

@@ -20,17 +20,10 @@
     "babel-eslint": "^10.1.0",
     "babel-loader": "^8.1.0",
     "css-loader": "^5.0.0",
-    "dynamic-cdn-webpack-plugin": "^5.0.0",
-    "eslint": "^7.12.1",
-    "eslint-config-prettier": "^6.15.0",
-    "eslint-config-react": "^1.1.7",
-    "eslint-loader": "^4.0.2",
-    "eslint-plugin-prettier": "^3.1.4",
-    "eslint-plugin-react": "^7.21.5",
     "file-loader": "^6.2.0",
     "html-webpack-plugin": "^4.5.0",
+    "interpolate-html-plugin": "^4.0.0",
     "mini-css-extract-plugin": "^1.2.1",
-    "module-to-cdn": "^3.1.5",
     "optimize-css-assets-webpack-plugin": "^5.0.4",
     "prettier": "^2.1.2",
     "react-dev-utils": "^11.0.0",
@@ -47,9 +40,8 @@
   },
   "homepage": "/",
   "scripts": {
-    "start": "yarn run eslint-fix && webpack-dev-server --mode development",
+    "start": "yarn run webpack-dev-server --mode development",
     "build": "webpack --mode production",
-    "eslint-fix": "eslint --fix \"src/**/*.tsx\"",
     "analyze": "source-map-explorer ./dist/**/*.tsx"
   }
 }
