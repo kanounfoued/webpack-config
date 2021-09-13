@@ -10,6 +10,7 @@ const getPublicUrlOrPath = require('react-dev-utils/getPublicUrlOrPath');
 const InterpolateHtmlPlugin = require('interpolate-html-plugin');
 const webpack = require('webpack');
 const fs = require('fs');
+const Dotenv = require('dotenv-webpack');
 
 const appDirectory = fs.realpathSync(process.cwd());
 const resolveApp = (relativePath) => path.resolve(appDirectory, relativePath);
@@ -149,6 +150,7 @@ module.exports = (_, argv) => {
     },
 
     plugins: [
+      new Dotenv(),
       new webpack.HashedModuleIdsPlugin(),
       new InterpolateHtmlPlugin({
         PUBLIC_URL: 'public/',
