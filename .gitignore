@@ -24,10 +24,8 @@ package-lock.json
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-yarn.lock
 
 # webstorm config
 .idea
 
-*.d.ts
 .env
