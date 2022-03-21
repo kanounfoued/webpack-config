@@ -1,9 +1,11 @@
-import React from 'react';
+import React, {FC} from 'react';
 import img from './asset/LD.png';
 
 import './style.css';
 
-const App: React.FC = () => {
+
+
+const App: FC = () => {
   return (
     <div>
       <div className="app">This is my app.</div>
