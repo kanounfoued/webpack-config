@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from './App';
-import Header from './header';
+import App from './views/app';
+import Header from './components/common/header';
 
 class Welcome extends React.Component {
   render() {
@@ -13,4 +13,5 @@ class Welcome extends React.Component {
     );
   }
 }
+
 ReactDOM.render(<Welcome />, document.getElementById('root'));

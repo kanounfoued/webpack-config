@@ -1,9 +1,7 @@
-import React, {FC} from 'react';
-import img from './asset/LD.png';
+import React, { FC } from 'react';
+import img from '../assets/images/LD.png';
 
-import './style.css';
-
-
+import '../styles/style.css';
 
 const App: FC = () => {
   return (
