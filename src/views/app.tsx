@@ -8,6 +8,8 @@ import EditProduct from './products/EditProduct';
 import DeleteProduct from './products/DeleteProduct';
 import ViewProduct from './products/ViewProduct';
 
+import AnimalExamples from '../components/AnimalExamples';
+
 import '../styles/style.css';
 
 const App: FC = () => {
@@ -15,6 +17,8 @@ const App: FC = () => {
     <div>
       <div className="app">This is my app.</div>
       <img src={img} alt="img" />
+
+      <AnimalExamples />
 
       <BrowserRouter>
         <ul>
