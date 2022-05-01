@@ -1,46 +1,40 @@
-import { fetchCat, fetchDog } from '../api/animalApi';
-import React, { useEffect, useState } from 'react';
+import { fetchDog } from '../api/animalApi';
+import React, { useEffect } from 'react';
+// import { withAsync } from '../helpers/withAsync';
+// import { PENDING, SUCCESS, ERROR } from '../constants/apiStatus';
+
+import LazyLoader from './common/LazyLoader';
+import useApi from '../hooks/useApi';
 
 const useFetchDog = () => {
-  const [dog, setDog] = useState<string>();
-  const initFetchDog = async () => {
-    const response = await fetchDog();
-    setDog(response.data.message);
-  };
-  return { dog, initFetchDog };
-};
+  const {
+    data: dog,
+    exec: initFetchDog,
+    isPending,
+    isIdle,
+    isError,
+    isSuccess,
+  } = useApi(() => fetchDog().then((res) => res.data.message), {});
 
-const useFetchCat = () => {
-  const [cat, setCat] = useState<string>();
-  const initFetchCat = async () => {
-    const response = await fetchCat();
-    setCat(response.data?.[0].url);
-  };
-  return { cat, initFetchCat };
-};
-
-const useFetchAnimals = () => {
-  const { dog, initFetchDog } = useFetchDog();
-  const { cat, initFetchCat } = useFetchCat();
-  const fetchAnimals = () => {
-    initFetchDog();
-    initFetchCat();
-  };
-  useEffect(() => {
-    fetchAnimals();
-  }, []);
-  return { dog, cat, fetchAnimals };
+  return { dog, initFetchDog, isPending, isIdle, isError, isSuccess };
 };
 
 function AnimalExample() {
-  const { dog, cat, fetchAnimals } = useFetchAnimals();
+  const { dog, initFetchDog, isPending, isIdle, isError, isSuccess } = useFetchDog();
+
+  useEffect(() => {
+    initFetchDog();
+  }, []);
+
   return (
     <div className="my-8 mx-auto max-w-2xl">
       <div className="flex gap-8">
-        <div className="w-1/2"> {cat ? <img className="h-64 w-full object-cover" src={cat} alt="Cat" /> : null}</div>
-        <div className="w-1/2">{dog ? <img className="h-64 w-full object-cover" src={dog} alt="Dog" /> : null} </div>
+        {isIdle ? <p>Welcome</p> : null}
+        <LazyLoader show={isPending} delay={400} />
+        {isError ? <p>There was a problem</p> : null}
+        {isSuccess ? <img className="h-64 w-full object-cover" src={dog} alt="Dog" /> : null}
       </div>
-      <button onClick={fetchAnimals} className="mt-4 bg-blue-800 text-blue-100 p-4">
+      <button onClick={initFetchDog} className="mt-4 bg-blue-800 text-blue-100 p-4">
         Fetch animals
       </button>
     </div>
