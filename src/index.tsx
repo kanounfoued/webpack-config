@@ -1,5 +1,5 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import App from './views/app';
 import Header from './components/common/header';
 
@@ -14,4 +14,6 @@ class Welcome extends React.Component {
   }
 }
 
-ReactDOM.render(<Welcome />, document.getElementById('root'));
+const container = document.getElementById('root') || document.createElement('div');
+
+createRoot(container).render(<Welcome />);
